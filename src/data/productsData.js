@@ -10,7 +10,7 @@ const products = [
         price:120.99
     },
     {
-        id: 1,
+        id: 3,
         title: 'Macbook',
         price:1200.00
     },

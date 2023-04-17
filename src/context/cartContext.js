@@ -1,36 +1,38 @@
-import { createContext, useState } from "react";
+import { createContext,useState } from "react";
+import { products,getProductData } from "../data/productsData";
 
-export const CartContext = createContext();
+const CartContext = createContext();
 
-export const CartProvider = ({ children }) => {
+const CartProvider = ({ children }) => {
+    // set cart items to an initialState;
     const [cartItems,setCartItems] = useState([])
-    const getProductQuantity = (id) => {
+    const getTotalQuantity = (id) => {
         let quantity = cartItems.find(product => product.id === id)?.quantity;
-        if (quantity === undefined) return 0;
+        if (quantity === undefined) {
+            return 0;
+        }
         return quantity;
     }
+
     const addOneToCart = (id) => {
-        // check for the quantity
-        let quantity = getProductQuantity(id);
+        let quantity = getTotalQuantity(id);
         if (quantity === 0) {
-            // if no id matches the id passed, then increase the value to 1
-            setCartItems([...cartItems,{id:id,quantity:1}])
-        }
-            // if the selected item is already present
-        else {
-            cartItems.map((product) => {
+            setCartItems([...cartItems, { id: id, quantity: 1 }]);
+        }  else {
+            setCartItems(cartItems.map((product) => {
                 return product.id === id ?
                     { ...product, quantity: product.quantity + 1 }
                     : product
-            });
+            }));
         }
     }
     const removeFromCart = (id) => {
-        let filteredItem = cartItems.filter(product => product.id !== id);
+        const filteredItem = products.filter(product => product.id !== id);
         setCartItems(filteredItem);
     }
-    const removeOneItem = (id) => {
-        let quantity = getProductQuantity(id);
+
+    const removeOneFromCart = (id) => {
+        let quantity = getTotalQuantity(id);
         if (quantity === 1) {
             removeFromCart(id);
         } else {
@@ -43,18 +45,27 @@ export const CartProvider = ({ children }) => {
             )
         }
     }
+
     const getTotalCost = (id) => {
+        let total;
+        products.map((product) => {
+            let selectedProduct = getProductData(id);
+            total += selectedProduct.price * getTotalQuantity(id);
+            return total;
+        })
         
     }
+
     return <CartContext.Provider value={{
-        items: cartItems,
-        getProductQuantity,
+        items:cartItems,
+        getTotalQuantity,
         addOneToCart,
         removeFromCart,
+        removeOneFromCart,
         getTotalCost,
-        removeOneItem
     }}>
         {children}
     </CartContext.Provider>
 }
 
+export { CartProvider,CartContext };
