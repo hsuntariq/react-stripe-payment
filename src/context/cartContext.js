@@ -33,6 +33,7 @@ const CartProvider = ({ children }) => {
 
     const removeOneFromCart = (id) => {
         let quantity = getTotalQuantity(id);
+        if(quantity === 0) return 0
         if (quantity === 1) {
             removeFromCart(id);
         } else {
@@ -46,15 +47,17 @@ const CartProvider = ({ children }) => {
         }
     }
 
-    const getTotalCost = (id) => {
-        let total;
-        products.map((product) => {
-            let selectedProduct = getProductData(id);
-            total += selectedProduct.price * getTotalQuantity(id);
+    const getTotalCost = () => {
+        let total = 0;
+        cartItems.map((item) => {
+            const selectedItem = getProductData(item.id);
+            total += (selectedItem.price * item.quantity)
             return total;
         })
-        
+        return total;
     }
+        
+    
 
     return <CartContext.Provider value={{
         items:cartItems,
