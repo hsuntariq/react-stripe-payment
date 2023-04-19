@@ -1,13 +1,13 @@
 const products = [
     {
         id: 1,
-        image:"https://img.freepik.com/premium-photo/white-cup-latte-coffee-isolated-white-background-file-contains-with-clipping-path-so-easy-work_24076-852.jpg?w=2000",
+        image:"https://post.medicalnewstoday.com/wp-content/uploads/sites/3/2020/02/coffee-4.jpg",
         title: 'Coffee',
         price:20.99
     },
     {
         id: 2,
-        image:"https://static-01.daraz.pk/p/bc2bad088c7bc9eac8607526f14ac098.jpgg",
+        image:"https://hawkbull.pk/wp-content/uploads/2021/12/IMG_5177-1000x1000.jpg",
         title: 'Jacket',
         price:120.99
     },
