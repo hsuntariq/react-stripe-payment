@@ -9,6 +9,21 @@ const Header = () => {
     const cart = useContext(CartContext);
     // get the toal Quantity
     const productCount = cart.items.reduce((sum,product)=>sum + product.quantity, 0 )
+    const handleCheckOut = async () => {
+        await fetch('http://localhost:8000/checkout', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                items: cart.items,
+            })
+        }).then((response) => {
+                return response.json()
+            }).then((response) => {
+                window.location.assign(response.url);
+            })
+    };
 return (
     <>
         <Navbar expand="sm" bg="light">
@@ -49,6 +64,9 @@ return (
                         <h4 className="text-success">
                             Subtotal:${cart.getTotalCost().toFixed(2)}
                         </h4>
+                        <Button onClick={handleCheckOut} className="w-100 mt-2" variant="success">
+                            CheckOut
+                        </Button>
                     </>
                 ) : (
                         <>
