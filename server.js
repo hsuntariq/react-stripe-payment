@@ -1,7 +1,5 @@
 // sk_test_51MycIqD2171rDQ1bM2Vo43LraZJVqjoKBvTbP7yl52C5ShEqWmsSrT7kktdyrtUAuRwrOD8HRmqXnfFOXPULc7Xr00A9NYeUOU
-// coffee: price_1MycSDD2171rDQ1bnbM18dAH
-// jacket: price_1MycUvD2171rDQ1bKnBShmm8
-// macbook: price_1MycVnD2171rDQ1b7o7lE0jc
+
 
 const express = require('express');
 const cors = require('cors');
@@ -30,5 +28,9 @@ app.post('/checkout', async (req, res) => {
     });
 
     // send back the url
-    
+    res.send(JSON.stringify({
+        url: stripeSession.url
+    }));
 })
+
+app.listen(8000,()=>console.log('server started on port 8000'))
